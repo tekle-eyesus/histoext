@@ -1,55 +1,42 @@
-# ChronoHistory - Chrome History Search by Date
+# ChronoHistory
 
-> **Find exactly what you browsed on any date, even when you can't remember the keywords.**
+Chrome extension for searching and exploring browsing history by date.
 
-In default Google Chrome (`chrome://history`), you can only search history by keyword. If you don't remember what words were in the page title or URL, finding pages you visited on a specific day (like **Friday, October 30, 2026**) is frustrating and tedious.
+![Chrome Extension](https://img.shields.io/badge/Chrome%20Extension-MV3-4285F4?logo=googlechrome&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6%2B-F7DF1E?logo=javascript&logoColor=black)
+![HTML5](https://img.shields.io/badge/HTML5-Markup-E34F26?logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-Styling-1572B6?logo=css3&logoColor=white)
+![Privacy](https://img.shields.io/badge/Privacy-Local%20Only-success)
 
-**ChronoHistory** solves this. Simply pick a date or type it in, and see your entire browsing history for that exact day.
+## Overview
 
----
+Chrome's default history page (`chrome://history`) focuses on keyword-based search. ChronoHistory adds date-focused navigation so you can quickly find what you visited on a specific day, even when you do not remember exact keywords.
 
-## 🌟 Key Features
+## Features
 
-- 📅 **Pick Any Date**: Select a date using a calendar picker or use `◀ Prev Day` / `Next Day ▶` arrows to flip through your history day-by-day.
-- ⚡ **Natural Date Search**: Type or paste any date like `"Friday, October 30, 2026"`, `"Oct 30, 2026"`, `"2026-10-30"`, `"yesterday"`, or `"3 days ago"` and press Enter to jump immediately.
-- 🕒 **Hourly Timeline View**: Visually explore your visits grouped hour-by-hour (e.g. `10:00 PM – 11:00 PM`) with exact visit timestamps.
-- 🌐 **Domain Breakdown & 1-Click Site Filters**: View top sites visited on that day (e.g. `youtube.com (12)`, `github.com (8)`) and filter to any site with one click.
-- ☀️ **Time-of-Day Filters**: Quickly narrow down results to **Morning (6am–12pm)**, **Afternoon (12pm–6pm)**, **Evening (6pm–10pm)**, or **Night (10pm–6am)**.
-- 🔍 **Instant In-Date Search**: Search within that day's history with real-time keyword highlighting.
-- 🖥️ **Full-Page Tab Mode**: Click the expand icon to view your history across a full desktop monitor instead of a small popup.
-- 📤 **Export History**: Download any day's history as a **CSV** spreadsheet or **JSON** file.
-- 🌓 **Dark & Light Mode**: Seamless dark and light theme with automatic system preference detection.
-- 🔒 **100% Private**: Runs entirely locally on your device using Chrome's official Extension History API. Zero tracking, zero telemetry, no external servers.
+- Select any day from a date picker.
+- Jump to dates using natural language input such as `Oct 30, 2026`, `yesterday`, or `3 days ago`.
+- Navigate day-by-day using previous and next controls.
+- Review visits in timeline, domain, or flat-list views.
+- Filter results by time of day and domain.
+- Search within the selected day using keywords.
+- Export a day's history as CSV or JSON.
+- Use the extension in popup mode or full-page tab mode.
+- Switch between light and dark themes.
+- Keep data local to the browser with no external telemetry.
 
----
+## Installation
 
-## 🚀 How to Install in Google Chrome (30 Seconds)
+1. Open Google Chrome and go to `chrome://extensions`.
+2. Enable **Developer mode**.
+3. Click **Load unpacked**.
+4. Select the local project directory:
+   `/home/runner/work/histoext/histoext`
+5. Pin ChronoHistory from the Chrome toolbar for quick access.
 
-1. Open **Google Chrome**.
-2. In the address bar, navigate to:
-   ```text
-   chrome://extensions
-   ```
-3. Toggle on **"Developer mode"** in the top-right corner.
-4. Click the **"Load unpacked"** button in the top-left.
-5. Select this extension folder:
-   ```text
-   c:\Users\User\Desktop\personal projects\histoext
-   ```
-6. That's it! Pin **ChronoHistory** to your Chrome toolbar for one-click access.
+## Usage
 
----
-
-## 💡 How to Use
-
-1. Click the **ChronoHistory** icon in your Chrome toolbar.
-2. The current day's browsing history loads automatically.
-3. **To see history for a specific date**:
-   - Click the formatted date header to pick a date from the calendar.
-   - Or type any date into the **"Jump to date"** bar (e.g., `Oct 30, 2026` or `2026-10-30`) and click **Jump**.
-   - Or use the `◀ Prev` and `Next ▶` buttons to step through days.
-4. **To view in full-screen**:
-   - Click the expand icon (top right) to open ChronoHistory in a full browser tab.
-5. **To export or clear**:
-   - Use the **Export CSV** or **Export JSON** buttons in the stats bar to backup that day's links.
-
+1. Open ChronoHistory from the Chrome toolbar.
+2. Choose a date from the date picker or use the jump input.
+3. Refine results with time, domain, or keyword filters.
+4. Export results as needed using CSV or JSON actions.
