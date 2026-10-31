@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "ChronoHistory - Search Chrome History by Date",
+  "version": "1.0.0",
+  "description": "Effortlessly find, search, and filter your browsing history by specific date, date range, time of day, and domain.",
+  "permissions": [
+    "history",
+    "favicon",
+    "storage",
+    "tabs"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Search History by Date",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
+}
+

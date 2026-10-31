@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChronoHistory - Search Chrome History by Date</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body class="theme-system">
+  <div class="app-container">
+    <!-- Top Navigation Header -->
+    <header class="app-header">
+      <div class="brand">
+        <img src="icons/icon-32.png" alt="ChronoHistory" class="brand-icon">
+        <div class="brand-text">
+          <h1>ChronoHistory</h1>
+          <span class="tagline">Search & Filter History by Date</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="btn-today" class="btn btn-subtle" title="Jump to Today">Today</button>
+        <button id="btn-yesterday" class="btn btn-subtle" title="Jump to Yesterday">Yesterday</button>
+        <button id="btn-expand-tab" class="btn btn-icon" title="Open in Full Page Tab" aria-label="Open in Full Tab">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 3h6v6"></path>
+            <path d="M10 14L21 3"></path>
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          </svg>
+        </button>
+        <button id="btn-theme-toggle" class="btn btn-icon" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Date Selector Controls -->
+    <section class="date-controls-card">
+      <div class="date-navigator">
+        <button id="btn-prev-day" class="btn-nav" title="Previous Day">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>Prev</span>
+        </button>
+
+        <div class="date-display-wrapper">
+          <div class="date-badge" id="date-weekday-badge">Selected Date</div>
+          <div class="date-primary-row">
+            <label for="date-input" class="visually-hidden">Choose date</label>
+            <input type="date" id="date-input" class="date-picker-input">
+            <div id="date-formatted-text" class="date-formatted-text" title="Click to pick another date">
+              Loading date...
+            </div>
+          </div>
+          <!-- Natural date / quick jump input bar -->
+          <div class="natural-input-row">
+            <span class="quick-jump-label">Jump to date:</span>
+            <input type="text" id="natural-date-input" placeholder="e.g. Oct 30, 2026, yesterday, or 2026-10-30" title="Type any date format and press Enter">
+            <button id="btn-natural-jump" class="btn btn-xs">Jump</button>
+          </div>
+        </div>
+
+        <button id="btn-next-day" class="btn-nav" title="Next Day">
+          <span>Next</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Mode & Range Toggle -->
+      <div class="range-toggle-bar">
+        <button id="btn-mode-single" class="tab-btn active">Single Day</button>
+        <button id="btn-mode-range" class="tab-btn">Date Range</button>
+        <div id="range-inputs-container" class="range-inputs-container hidden">
+          <span>From</span>
+          <input type="date" id="range-start-date" class="date-range-input">
+          <span>To</span>
+          <input type="date" id="range-end-date" class="date-range-input">
+          <button id="btn-apply-range" class="btn btn-primary btn-xs">Apply</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search & Filters Toolbar -->
+    <section class="filters-card">
+      <div class="search-row">
+        <div class="search-input-wrapper">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="keyword-search" placeholder="Search page titles or URLs for this date..." autocomplete="off">
+          <button id="btn-clear-search" class="btn-clear-search hidden" title="Clear search">✕</button>
+        </div>
+
+        <!-- View mode switcher -->
+        <div class="view-mode-group">
+          <button id="view-timeline" class="view-btn active" title="Timeline by Hour">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span>Timeline</span>
+          </button>
+          <button id="view-domains" class="view-btn" title="Group by Domain">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            <span>Domains</span>
+          </button>
+          <button id="view-flat" class="view-btn" title="Flat List">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="8" y1="6" x2="21" y2="6"></line>
+              <line x1="8" y1="12" x2="21" y2="12"></line>
+              <line x1="8" y1="18" x2="21" y2="18"></line>
+              <line x1="3" y1="6" x2="3.01" y2="6"></line>
+              <line x1="3" y1="12" x2="3.01" y2="12"></line>
+              <line x1="3" y1="18" x2="3.01" y2="18"></line>
+            </svg>
+            <span>List</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Time of Day & Domain Filters -->
+      <div class="filter-pills-row">
+        <div class="time-filters">
+          <span class="filter-label">Time:</span>
+          <button class="pill-btn active" data-time-filter="all">All Day</button>
+          <button class="pill-btn" data-time-filter="morning">Morning (6a-12p)</button>
+          <button class="pill-btn" data-time-filter="afternoon">Afternoon (12p-6p)</button>
+          <button class="pill-btn" data-time-filter="evening">Evening (6p-10p)</button>
+          <button class="pill-btn" data-time-filter="night">Night (10p-6a)</button>
+        </div>
+      </div>
+
+      <!-- Top Domains Filter Bar -->
+      <div id="domain-filters-bar" class="domain-filters-bar hidden">
+        <span class="filter-label">Filter by site:</span>
+        <div id="domain-pills-list" class="domain-pills-list"></div>
+      </div>
+    </section>
+
+    <!-- Stats & Actions Bar -->
+    <div class="stats-bar">
+      <div id="stats-summary" class="stats-summary">
+        Loading history...
+      </div>
+      <div class="stats-actions">
+        <button id="btn-export-csv" class="btn btn-outline btn-xs" title="Export this date to CSV">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Export CSV
+        </button>
+        <button id="btn-export-json" class="btn btn-outline btn-xs" title="Export this date to JSON">
+          JSON
+        </button>
+        <button id="btn-delete-day" class="btn btn-danger-outline btn-xs" title="Delete all history items visited on this date">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+          Clear Day
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Results Container -->
+    <main id="history-container" class="history-container">
+      <div class="loading-state" id="loading-state">
+        <div class="spinner"></div>
+        <p>Scanning browsing history...</p>
+      </div>
+
+      <div class="results-list" id="results-list"></div>
+
+      <!-- Empty State -->
+      <div class="empty-state hidden" id="empty-state">
+        <div class="empty-icon">📅</div>
+        <h3>No browsing history found</h3>
+        <p id="empty-message">No web pages were recorded for this date.</p>
+        <div class="empty-actions">
+          <button id="btn-empty-today" class="btn btn-primary">Check Today</button>
+          <button id="btn-empty-prev" class="btn btn-secondary">Try Previous Day</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Status Toast / Feedback -->
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
+
